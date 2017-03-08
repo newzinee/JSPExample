@@ -65,7 +65,11 @@ public class ControllerUsingURI extends HttpServlet {
 	
 	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//클라이언트가 요청한 명령어를 구한다.
-		String command = request.getParameter("cmd");
+		String command = request.getRequestURI();
+		if(command.indexOf(request.getContextPath()) == 0) {
+			command = command.substring(request.getContextPath().length());
+		}
+		
 		
 		//commandHandlermap에서 요청을 처리할 핸들러 객체를 구한다.
 		CommandHandler handler = commandHandlerMap.get(command);
